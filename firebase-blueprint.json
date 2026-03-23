@@ -1,0 +1,128 @@
+{
+  "entities": {
+    "Pet": {
+      "title": "Pet",
+      "description": "Represents an animal available for adoption or purchase.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the pet" },
+        "species": { "type": "string", "description": "Species (e.g., Dog, Cat, Bird)" },
+        "breed": { "type": "string", "description": "Breed of the pet" },
+        "age": { "type": "number", "description": "Age in years" },
+        "price": { "type": "number", "description": "Price of the pet" },
+        "description": { "type": "string", "description": "Detailed description" },
+        "imageUrl": { "type": "string", "format": "uri", "description": "URL to the pet's photo" },
+        "status": { "type": "string", "enum": ["available", "pending", "adopted"], "description": "Current status" },
+        "category": { "type": "string", "description": "Category ID" }
+      },
+      "required": ["name", "species", "price", "status"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Pet categories like Dogs, Cats, etc.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Category name" },
+        "icon": { "type": "string", "description": "Lucide icon name" }
+      },
+      "required": ["name"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile information.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "customer"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Purchase or adoption order.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "petId": { "type": "string" },
+        "productId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "completed", "cancelled"] },
+        "totalPrice": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "status", "totalPrice"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Pet supplies like food, toys, etc.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "category": { "type": "string" },
+        "isFeatured": { "type": "boolean" },
+        "stock": { "type": "number" }
+      },
+      "required": ["name", "price", "category", "stock"]
+    },
+    "WishlistItem": {
+      "title": "WishlistItem",
+      "description": "An item a user has saved for later.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "itemId": { "type": "string" },
+        "itemType": { "type": "string", "enum": ["pet", "product"] },
+        "addedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "itemId", "itemType", "addedAt"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Customer review for a product.",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "rating": { "type": "number", "description": "Rating from 1 to 5" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "userId", "userName", "rating", "comment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/pets/{petId}": {
+      "schema": "Pet",
+      "description": "Collection of all pets"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of all products"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Pet categories"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer orders"
+    },
+    "/wishlists/{wishlistId}": {
+      "schema": "WishlistItem",
+      "description": "User wishlist items"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Product reviews"
+    }
+  }
+}
